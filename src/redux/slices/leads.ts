@@ -24,8 +24,8 @@ export const leadsSlice = createSlice({
         addNewLead: (state, action: {type:string, payload:Lead}) => {
             state.leads.push(action.payload)
         },
-        changeLead: (state, action: {type:string, payload:string})=>{
-            console.log(action)
+        changeLead: (state, action: {type:string, payload:{leadName:string, newPoint:string, selectType: string}})=>{
+            
         }
     }
 })

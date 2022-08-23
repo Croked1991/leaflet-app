@@ -1,24 +1,18 @@
-import { Dropdown, Space, Table, Menu, Select } from "antd";
+import {  Table, Select } from "antd";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { getPointsForNewRoute } from "../../../redux/slices/route";
-import { DownOutlined } from '@ant-design/icons';
+
+import { useEffect, useState } from "react";
 import { changeLead } from "../../../redux/slices/leads";
-import { useEffect, useRef, useState } from "react";
-import { log } from "console";
+
 
 export const LeadsTable = () => {
   const dispatch = useAppDispatch()
   const dataSource = useAppSelector(store => store.leads.leads)
   const points = useAppSelector(store => store.points.points)
 
-
   const opt = points.map(el => ({ label: el.name, value: el.name }))
-
-
-
-
-
 
   const columns = [
     {
@@ -47,9 +41,8 @@ export const LeadsTable = () => {
           onClick={e => e.stopPropagation()}
           style={{ width: 120 }}
           onChange={
-            (e) => {console.log(e); 
-            const x = "столбец откуда"; 
-            console.log(x)
+            (e) => {setNewPoint(e); 
+            setSelectType("столбец откуда")
           }}
           options={opt}
         />
@@ -70,8 +63,7 @@ export const LeadsTable = () => {
           style={{ width: 120 }}
           onChange={
             (e) => {setNewPoint(e); 
-            const x = "столбец куда"; 
-            console.log(x)
+            setSelectType("столбец куда")
           }}
           options={opt}
         />
@@ -81,17 +73,19 @@ export const LeadsTable = () => {
 
   const [newPoint, setNewPoint] = useState("")
   const [currentLead, setCurrentLead] = useState('')
+  const [selectType, setSelectType] = useState('')
 
-  const putNewPoint = (lead?: string, point?: string) => {
-    if (lead && point) {
-      console.log(lead, point)
+
+  const changeCurrentLead = (leadName?:string, newPoint?:string, selectType?: string)=> {
+    if (leadName && newPoint && selectType) {
+      dispatch(changeLead({leadName, newPoint, selectType}))
     }
   }
 
   useEffect(() => {
-    putNewPoint(currentLead, newPoint)
+    changeCurrentLead(currentLead, newPoint, selectType)
     setNewPoint('')
-  }, [currentLead, newPoint])
+  }, [currentLead, newPoint, selectType])
 
   return (
     <Table
@@ -99,7 +93,7 @@ export const LeadsTable = () => {
       onRow={(record, index) => {
         return {
           onClick: event => { dispatch(getPointsForNewRoute([record.from, record.to])) },
-          onSelect: e => console.log(record.name)
+          onSelect: e => setCurrentLead(record.name)
         }
       }}
       tableLayout='auto'
