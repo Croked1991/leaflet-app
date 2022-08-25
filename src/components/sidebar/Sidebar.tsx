@@ -1,4 +1,4 @@
-import { Divider, Typography } from "antd";
+import { Typography } from "antd";
 import { LeadsTable } from "./leads/Leads";
 
 const {Title} = Typography

@@ -1,4 +1,4 @@
-import { LatLngExpression, LatLngTuple } from "leaflet";
+import { LatLngTuple } from "leaflet";
 import { createSlice } from '@reduxjs/toolkit'
 
 
@@ -12,15 +12,14 @@ const initialState:Waypoints = [
 ]
 
 export const waypointsSlice = createSlice({
-    name: 'waypoints',
-    initialState,
-    reducers: {
+        name: 'waypoints',
+        initialState,
+        reducers: {
             setNewWaypoints: (state, action:{type:string, payload:Waypoints}) => {
                 state = action.payload
-            }
+                }
         }
-    }
-)
+})
 
 export const {setNewWaypoints} = waypointsSlice.actions
 export default waypointsSlice.reducer

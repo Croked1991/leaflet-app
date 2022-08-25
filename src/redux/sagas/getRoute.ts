@@ -7,7 +7,6 @@ import { setNewRoute } from '../slices/route';
 
 function* getRouteFetch (action:{type:string, payload: LatLngTuple[]}): any{
     try {
-        yield console.log(action.payload)
         const waypoints = yield action.payload.map(e=> e.reverse())
         const data = yield call(()=> fetch(`https://router.project-osrm.org/route/v1/driving/${waypoints[0]};${waypoints[1]}?geometries=geojson&overview=full`))
         const json = yield data.json()

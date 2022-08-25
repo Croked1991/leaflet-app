@@ -1,10 +1,14 @@
-import { MapContainer, Marker, Polyline, TileLayer, useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 import "@react-leaflet/core"
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { fetchRoute, setNewRoute } from "../../redux/slices/route";
+import { fetchRoute } from "../../redux/slices/route";
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import {Icon} from 'leaflet'
+
+const icon = new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})
 
 
 
@@ -15,18 +19,15 @@ export const Map = () => {
 
     const route = useAppSelector(store => store.route.route )
     const dispatch = useAppDispatch()
-
    
-    
+   
 
     useEffect(()=>{
         dispatch(fetchRoute(
-            [[54.735526, 55.983500],
-            [54.739428, 55.973093]]
+            [[46, 46],
+            [46, 47]]
         ))
     }, [dispatch])
-
-    console.log(route);
     
 
     return (
@@ -41,6 +42,8 @@ export const Map = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Polyline pathOptions={{weight: 8}} positions={route} />
+            <Marker icon={icon} position={route[0]} />
+            <Marker icon={icon} position={route[route.length - 1]} />
         </MapContainer>
     );
 };

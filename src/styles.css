@@ -1,23 +1,31 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
-  display: flex;
-  height: 100vh;
-}
-
-.sidebar {
-  min-width: 30%;
-}
-
-#map {
-  height: 100vh;
-}
-
-.leaflet-container{
+.leaflet-container {
   height: 100vh;
   width: 100%;
 }
 
-.leaflet-routing-container{
-  display: none;
+.wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.resBar {
+  height: 100vh;
+  width: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 10vw;
+  max-width: 70vw;
+}
+
+.resizer {
+  position: absolute;
+  background: black;
+  cursor: col-resize;
+  right: 0;
+  top: 0;
+  width: 10px;
+  z-index: 1;
+  height: 100vh;
 }

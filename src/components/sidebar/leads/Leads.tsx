@@ -1,19 +1,56 @@
 import {  Table, Select } from "antd";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
-import { getPointsForNewRoute } from "../../../redux/slices/route";
+import { getPointsForNewRoute, setIsWrongPoints } from "../../../redux/slices/route";
 
 import { useEffect, useState } from "react";
 import { changeLead } from "../../../redux/slices/leads";
+
+
+
 
 
 export const LeadsTable = () => {
   const dispatch = useAppDispatch()
   const dataSource = useAppSelector(store => store.leads.leads)
   const points = useAppSelector(store => store.points.points)
+  
+  const opt = points.map(el => ({ label: el.name, value: el.name }))    
 
-  const opt = points.map(el => ({ label: el.name, value: el.name }))
+  const [selectedRowKeys, setSelectedRowKeys] = useState([0])
+  
+  const selectRow = (record:any) => {
+    setSelectedRowKeys( [record.id] );
+  }  
+  const [newPoint, setNewPoint] = useState("")
+  const [currentLead, setCurrentLead] = useState('')
+  const [selectType, setSelectType] = useState('')
+  
+  const  onSelectedRowKeysChange = (keys:any) => {
+    setSelectedRowKeys(keys);
+  }
+  
+  const onClickSelectHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      dispatch(setIsWrongPoints({isWrongPoints: false}))
+  }
+  
+  const passPointInfoFrom = (e:string) => {
+    const FROM = "from"
+    setNewPoint(e); 
+    setSelectType(FROM)
+    dispatch(getPointsForNewRoute({points:[e], selectType:FROM}))
+  }
+  const passPointInfoTo = (e:string) => {
+    const TO = "to"
+    setNewPoint(e); 
+    setSelectType(TO)
+    dispatch(getPointsForNewRoute({points:[e], selectType:TO}))
+  }
 
+
+
+  
   const columns = [
     {
       title: 'ID заявки',
@@ -34,18 +71,15 @@ export const LeadsTable = () => {
       name: "from",
       key: "from",
       width: "10px",
-      render: (index: string) => (
+      render: (name: string) => (
         <Select
           key="from"
-          defaultValue={index}
-          onClick={e => e.stopPropagation()}
-          style={{ width: 120 }}
-          onChange={
-            (e) => {setNewPoint(e); 
-            setSelectType("столбец откуда")
-          }}
+          defaultValue={name}
+          value={name}
+          onClick={onClickSelectHandler}
+          onChange={passPointInfoFrom}
           options={opt}
-        />
+        />        
       )
     },
     {
@@ -55,25 +89,19 @@ export const LeadsTable = () => {
       key: "to",
       id: "to",
       width: "10px",
-      render: (index: string) => (
+      render: (name: string) => (
         <Select
           key="to"
-          defaultValue={index}
-          onClick={(e)=> { e.stopPropagation() }}
-          style={{ width: 120 }}
-          onChange={
-            (e) => {setNewPoint(e); 
-            setSelectType("столбец куда")
-          }}
+          defaultValue={name}
+          value={name}
+          onClick={onClickSelectHandler}
+          onChange={passPointInfoTo}
           options={opt}
         />
       )
     },
   ];
 
-  const [newPoint, setNewPoint] = useState("")
-  const [currentLead, setCurrentLead] = useState('')
-  const [selectType, setSelectType] = useState('')
 
 
   const changeCurrentLead = (leadName?:string, newPoint?:string, selectType?: string)=> {
@@ -81,19 +109,38 @@ export const LeadsTable = () => {
       dispatch(changeLead({leadName, newPoint, selectType}))
     }
   }
+  
+  
 
   useEffect(() => {
     changeCurrentLead(currentLead, newPoint, selectType)
     setNewPoint('')
   }, [currentLead, newPoint, selectType])
+  
+      
+
 
   return (
     <Table
+      rowSelection={{
+            type: "radio",
+            selectedRowKeys,
+            onChange: onSelectedRowKeysChange
+        }}
       pagination={false}
-      onRow={(record, index) => {
+      onRow={(record) => {
         return {
-          onClick: event => { dispatch(getPointsForNewRoute([record.from, record.to])) },
-          onSelect: e => setCurrentLead(record.name)
+          onClick: () => { 
+              dispatch(getPointsForNewRoute({points:[record.from, record.to]}))
+              selectRow(record);          
+                },
+          onSelect: () => { 
+              selectRow(record);  
+              setCurrentLead(record.name); 
+              dispatch(setIsWrongPoints({isWrongPoints: false}))
+              dispatch(getPointsForNewRoute({points:[record.from, record.to]}))
+              },   
+                   
         }
       }}
       tableLayout='auto'
@@ -101,6 +148,7 @@ export const LeadsTable = () => {
       scroll={{ x: 'max-content' }}
       dataSource={dataSource}
       columns={columns}
+      rowKey="id"
     />
   )
 };
