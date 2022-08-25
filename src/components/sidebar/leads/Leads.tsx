@@ -32,7 +32,7 @@ export const LeadsTable = () => {
   
   const onClickSelectHandler = (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
-      dispatch(setIsWrongPoints({isWrongPoints: false}))
+      dispatch(setIsWrongPoints(false))
   }
   
   const passPointInfoFrom = (e:string) => {
@@ -53,7 +53,7 @@ export const LeadsTable = () => {
   
   const columns = [
     {
-      title: 'ID заявки',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
       width: "10px",
@@ -137,7 +137,7 @@ export const LeadsTable = () => {
           onSelect: () => { 
               selectRow(record);  
               setCurrentLead(record.name); 
-              dispatch(setIsWrongPoints({isWrongPoints: false}))
+              dispatch(setIsWrongPoints(false))
               dispatch(getPointsForNewRoute({points:[record.from, record.to]}))
               },   
                    
