@@ -47,8 +47,6 @@ function* changeToPoint(
     }
 }
 
-
-
 export function* changeLeadRoute (
     kindOfPoint:KindOfPoint, 
     newLeads:Lead[],

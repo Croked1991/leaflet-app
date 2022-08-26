@@ -1,13 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { store } from './../index';
+import { store } from '../../index';
 import {put, takeEvery} from "redux-saga/effects"
-import { changeLeadsState, Lead } from '../slices/leads';
-import { setIsWrongPoints } from '../slices/route';
-import {FROM, TO} from '../../constantes/constantes'
+import { Lead } from '../../slices/leads';
+import { setIsWrongPoints } from '../../slices/route';
+import {FROM, TO} from '../../../constantes/constantes'
 import { changeLeadRoute } from './helpers'
-
-
-
 
 export type KindOfPoint = typeof FROM | typeof TO
 
@@ -16,10 +13,6 @@ export type ChangeLeadWorkArgs = {
     newPoint:string, 
     selectType: KindOfPoint
 }
-
-
- 
- 
 
 function* changeLeadRoutePointsWork (action:PayloadAction<ChangeLeadWorkArgs>){
     yield put(setIsWrongPoints(false))

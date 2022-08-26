@@ -1,11 +1,11 @@
 import { all } from "redux-saga/effects";
 import { changeLeadRoutePointsWatch } from "./changeLeadRoutePoints/changeLeadRoutePoints";
-import { getRoute } from "./getRoute";
-import { setRouteWatch } from "./setRoute";
+import { getRouteFromAPIWatch } from "./getRouteFromAPI/getRouteFromAPI";
+import { setRouteWatch } from "./setRoute/setRoute";
 
 export default function* rootSaga() {
     yield all([
-        getRoute(),
+        getRouteFromAPIWatch(),
         setRouteWatch(),
         changeLeadRoutePointsWatch()
     ])
