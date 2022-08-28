@@ -1,4 +1,4 @@
-.leaflet-container {
+.leafletContainer {
   height: 100vh;
   width: 100%;
 }
@@ -9,7 +9,7 @@
   width: 100vw;
 }
 
-.resBar {
+.sidebar {
   height: 100vh;
   width: 10vw;
   display: flex;
@@ -28,4 +28,17 @@
   width: 10px;
   z-index: 1;
   height: 100vh;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.spin {
+  height: 100vh;
+  position: absolute;
+  z-index: 600;
+  top: 50%;
+  left: 50%;
 }

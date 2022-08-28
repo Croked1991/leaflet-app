@@ -1,20 +1,7 @@
-import { LatLngTuple } from 'leaflet';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Point, Points } from "./../../types/slices";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { UFA, MSK, KZN, SMR, EKT, KRD } from "../../constantes/constantes";
 
-export const UFA = "cклад УФА"
-export const MSK = "cклад МСК"
-export const KZN = "cклад КЗН"
-export const SMR = "cклад СМР"
-export const EKT = "cклад ЕКБ"
-export const KRD = "cклад КРД"
-
-export type Point = {
-    id: number,
-    name: string,
-    latLng: LatLngTuple
-}
-
-type Points = { points: Point[] }
 
 const initialState: Points = {
     points: [
@@ -28,7 +15,7 @@ const initialState: Points = {
 }
 
 export const pointsSlice = createSlice({
-    name: 'points',
+    name: "points",
     initialState,
     reducers: {
         addNewPoint: (state, action: PayloadAction<Point>) => {

@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { LeadsTable } from "./leads/Leads";
+import { LeadsTable } from "./leads/LeadsTable";
 
 const {Title} = Typography
 

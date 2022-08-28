@@ -1,28 +1,10 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { LatLngTuple } from 'leaflet';
+import { JsonType } from "./../../../types/sagas";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { LatLngTuple } from "leaflet";
 import {call, put, takeEvery} from "redux-saga/effects"
-import { setNewRoute } from '../../slices/route';
+import { setNewRoute } from "../../slices/route";
 
-type JsonType = {
-code: string,
-routes: {
-    distance: number,
-    duration: number,
-    geometry: {
-        coordinates: LatLngTuple[],
-        type: string
-    },
-    legs: {
-        distance: number,
-        duration: number,
-        steps:[],
-        summary: string,
-    }[],
-    weight: number,
-    weight_name: string
-}[],
-waypoints: {hint:string}[]
-}
+
 
 
 function* getRouteFromAPIWork (action:PayloadAction<LatLngTuple[]>){
@@ -40,6 +22,6 @@ function* getRouteFromAPIWork (action:PayloadAction<LatLngTuple[]>){
 
 
 export function* getRouteFromAPIWatch(){
-    yield takeEvery('route/fetchRoute', getRouteFromAPIWork)
+    yield takeEvery("route/fetchRoute", getRouteFromAPIWork)
 }
 
